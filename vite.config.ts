@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/Kadai_Students/' : '/',
+  base: command === 'build' ? '/kadai3_students/' : '/',
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
