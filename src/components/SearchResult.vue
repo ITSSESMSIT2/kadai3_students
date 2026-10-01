@@ -24,46 +24,37 @@ const updatedAtValue = (day: string): string => {
 }
 </script>
 <template>
-  <body>
-    <div class="resultTitle">
-      <span class="title">児童生徒一覧</span>
-      <span class="resultNum">該当n件・全件{{ students.length }}件</span>
+  <div class="resultTitle">
+    <span class="title">児童生徒一覧</span>
+    <span class="resultNum">該当n件・全件{{ students.length }}件</span>
+  </div>
+  <div class="resultPanel">
+    <div class="showData">
+      <span class="infoLine">ID</span>
+      <span class="infoLine">氏名</span>
+      <span class="infoLine">ふりがな</span>
+      <span class="infoLine">学校</span>
+      <span class="infoLine">学年</span>
+      <span class="infoLine">組</span>
+      <span class="infoLine">出席番号</span>
+      <span class="infoLine">要フォロー</span>
+      <span class="infoLine">更新日</span>
     </div>
-    <div class="resultPanel">
-      <div class="showData">
-        <span class="infoLine">ID</span>
-        <span class="infoLine">氏名</span>
-        <span class="infoLine">ふりがな</span>
-        <span class="infoLine">学校</span>
-        <span class="infoLine">学年</span>
-        <span class="infoLine">組</span>
-        <span class="infoLine">出席番号</span>
-        <span class="infoLine">要フォロー</span>
-        <span class="infoLine">更新日</span>
-      </div>
-      <div class="result" v-for="student in students" :key="student.id">
-        <span class="infoLine">{{ student.id }}</span>
-        <span class="infoLine"> {{ student.name }}</span>
-        <span class="infoLine" id="kana"> {{ student.kana }}</span>
-        <span class="infoLine">{{ student.school.name }}</span>
-        <span class="infoLine">{{ student.grade.name }}</span>
-        <span class="infoLine">{{ classValue(student.class) }}</span>
-        <span class="infoLine">{{ student.attendanceNumber }}</span>
-        <span class="infoLine">{{ needsFollowValue(student.needsFollow) }}</span>
-        <span class="infoLine">{{ updatedAtValue(student.updatedAt) }}</span>
-      </div>
+    <div class="result" v-for="student in students" :key="student.id">
+      <span class="infoLine">{{ student.id }}</span>
+      <span class="infoLine"> {{ student.name }}</span>
+      <span class="infoLine" id="kana"> {{ student.kana }}</span>
+      <span class="infoLine">{{ student.school.name }}</span>
+      <span class="infoLine">{{ student.grade.name }}</span>
+      <span class="infoLine">{{ classValue(student.class) }}</span>
+      <span class="infoLine">{{ student.attendanceNumber }}</span>
+      <span class="infoLine">{{ needsFollowValue(student.needsFollow) }}</span>
+      <span class="infoLine">{{ updatedAtValue(student.updatedAt) }}</span>
     </div>
-  </body>
+  </div>
 </template>
 
 <style scoped>
-body {
-  background-color: #ffffff;
-  padding: 16px 8px;
-  margin: 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-}
 div {
   font-size: medium;
 }
