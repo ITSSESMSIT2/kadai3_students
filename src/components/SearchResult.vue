@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { students } from '@/data/students'
 import type { SchoolClass } from '@/types/school'
 import type { Student } from '@/types/student'
 
