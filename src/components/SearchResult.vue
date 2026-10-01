@@ -34,73 +34,69 @@ const updatedAtValue = (day: string): string => {
 }
 </script>
 <template>
-  <div class="resultTitle">
-    <span class="title">児童生徒一覧</span>
-    <span class="resultNum">該当n件・全件{{ students.length }}件</span>
-  </div>
   <div class="resultPanel">
-    <div class="showData">
-      <span class="infoLine">ID</span>
-      <span class="infoLine">氏名</span>
-      <span class="infoLine">ふりがな</span>
-      <span class="infoLine">学校</span>
-      <span class="infoLine">学年</span>
-      <span class="infoLine">組</span>
-      <span class="infoLine">出席番号</span>
-      <span class="infoLine">要フォロー</span>
-      <span class="infoLine">更新日</span>
+    <div class="resultTitle">
+      <span class="title">児童生徒一覧</span>
+      <span class="resultNum">該当n件・全件{{ students.length }}件</span>
     </div>
-    <div class="result" v-for="student in students" :key="student.id">
-      <span class="infoLine">{{ student.id }}</span>
-      <span class="infoLine"> {{ student.name }}</span>
-      <span class="infoLine" id="kana"> {{ student.kana }}</span>
-      <span class="infoLine">{{ student.school.name }}</span>
-      <span class="infoLine">{{ student.grade.name }}</span>
-      <span class="infoLine">{{ classValue(student.class) }}</span>
-      <span class="infoLine">{{ student.attendanceNumber }}</span>
-      <span class="infoLine">{{ needsFollowValue(student.needsFollow) }}</span>
-      <span class="infoLine">{{ updatedAtValue(student.updatedAt) }}</span>
-    </div>
+    <table class="studentTable">
+      <thead>
+        <tr class="paleText">
+          <th>氏名</th>
+          <th>ID</th>
+          <th>ふりがな</th>
+          <th>学校</th>
+          <th>学年</th>
+          <th>組</th>
+          <th>出席番号</th>
+          <th>要フォロー</th>
+          <th>更新日</th>
+        </tr>
+      </thead>
+      <tbody class="result" v-for="student in students" :key="student.id">
+        <th class="paleText">{{ student.id }}</th>
+        <th>{{ student.name }}</th>
+        <th class="paleText">{{ student.kana }}</th>
+        <th>{{ student.school.name }}</th>
+        <th>{{ student.grade.name }}</th>
+        <th>{{ classValue(student.class) }}</th>
+        <th>{{ student.attendanceNumber }}</th>
+        <th>{{ needsFollowValue(student.needsFollow) }}</th>
+        <th class="paleText">{{ updatedAtValue(student.updatedAt) }}</th>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <style scoped>
-div {
-  font-size: medium;
+.resultPanel {
+  background-color: var(--surface);
+  border: var(--elevation-2);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
 }
 .resultTitle {
+  color: ver(--text);
+  font-size: large;
+  margin: var(--space-md) var(--space-sm);
   display: flex;
-  margin: 16px;
+  justify-content: space-between;
 }
 .title {
   font-size: large;
-  margin-right: auto;
   font-weight: bold;
 }
 .resultNum {
-  color: #757575;
-  margin-left: auto;
+  font-size: large;
+  color: var(--text-sub);
 }
-.resultPanel {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
+.paleText {
+  color: var(--text-sub);
 }
-.showData {
-  display: flex;
-  color: #757575;
-  justify-content: space-between;
-  padding: 16px 8px;
-}
-.result {
-  display: flex;
-  justify-content: space-between;
-}
-.infoLine {
-  text-align: start;
-  justify-content: space-between;
-}
-#kana {
-  color: #757575;
+
+.studentTable {
+  text-align: left;
 }
 </style>
