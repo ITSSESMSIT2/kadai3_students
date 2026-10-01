@@ -24,9 +24,13 @@ const needsFollowValue = (result: boolean): string => {
     return '-'
   }
 }
-// 日付をyyyy/MM/ddに直す
+// 日付をyyyy/MM/ddに直す　→toLocalDataString()を利用
 const updatedAtValue = (day: string): string => {
-  return day.slice(0, 10)
+  return new Date(day).toLocaleDateString('ja-JP', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
 }
 </script>
 <template>
