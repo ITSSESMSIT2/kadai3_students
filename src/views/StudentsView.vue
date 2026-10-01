@@ -3,8 +3,8 @@ import Search from '@/components/Search.vue'
 import SearchResult from '@/components/SearchResult.vue'
 </script>
 <template>
-  <body>
-    <!-- ここに絞り込み条件の画面 -->
+  <!-- ここに絞り込み条件の画面 -->
+  <div class="studentSearchPage">
     <div class="searchPanel">
       <Search />
     </div>
@@ -13,11 +13,10 @@ import SearchResult from '@/components/SearchResult.vue'
     <div class="SearchResultPanel">
       <SearchResult />
     </div>
-  </body>
+  </div>
 </template>
-<style>
-body {
-  background: #f5f5f5;
-  margin: 0%;
+<style scoped>
+.studentSearchPage {
+  background-color: var(--bg);
 }
 </style>
