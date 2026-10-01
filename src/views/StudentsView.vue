@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Search from '@/components/Search.vue'
 import SearchResult from '@/components/SearchResult.vue'
+import { students } from '@/data/students'
 </script>
 <template>
   <!-- ここに絞り込み条件の画面 -->
@@ -11,7 +12,7 @@ import SearchResult from '@/components/SearchResult.vue'
     <!-- 児童生徒一覧のパネル -->
 
     <div class="SearchResultPanel">
-      <SearchResult />
+      <SearchResult :students="students" />
     </div>
   </div>
 </template>

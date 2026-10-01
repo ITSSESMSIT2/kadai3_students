@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { students } from '@/data/students'
 import type { SchoolClass } from '@/types/school'
+import type { Student } from '@/types/student'
+
+// 親コンポーネントから、Student型の配列を受け取る
+defineProps<{
+  students: Student[]
+}>()
 
 // 組がnullの場合の処理
 const classValue = (className: SchoolClass | null): string => {
