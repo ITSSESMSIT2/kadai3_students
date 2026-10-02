@@ -77,6 +77,7 @@ const updatedAtValue = (day: string): string => {
   border: var(--elevation-2);
   border-radius: var(--radius-md);
   padding: var(--space-xl);
+  margin: var(--space-md);
   display: flex;
   flex-direction: column;
 }
