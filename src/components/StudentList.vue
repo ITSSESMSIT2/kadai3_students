@@ -1,3 +1,5 @@
+<!-- 検索結果一覧の表示 -->
+
 <script setup lang="ts">
 import type { SchoolClass } from '@/types/school'
 import type { Student } from '@/types/student'
