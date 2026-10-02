@@ -230,3 +230,9 @@ main にマージされると `.github/workflows/deploy.yml` が動き、ビル�
   例えば、mainとfeature1があったとして、<br>
   feature1をmainにmargeしたい際は、main側でgit margeのコマンドを実行し、<br>
   最新のmainにfeature1をrebaseしたい際は、feature1からgit rebaseを実行する。<br>
+
+- class（model）の命名規則<br>
+  名詞。二語以上の際は形容詞 + 名詞<br>
+
+- メソッドの命名規則<br>
+  動詞。二語以上の際は動詞 + 名詞<br>
