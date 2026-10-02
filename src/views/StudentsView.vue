@@ -3,8 +3,10 @@ import StudentsSearchForm from '@/components/StudentsSearchForm.vue'
 import StudentList from '@/components/StudentList.vue'
 import { getStudents } from '@/api/studentApi'
 
-// API呼び出しのためのgetStudentsだが、そのまま使うと型エラーを起こすので一旦変数に格納する
-const useGetStudents = getStudents()
+// 用意されているgetStudents()インタフェースを利用し、疑似的なAPI呼び出しを行う。
+// 今回の場合、変数Studetsの箱の中には、getStudents()で呼び出したStudents[]配列がそのまま格納されている。
+
+const students = getStudents()
 </script>
 <template>
   <!-- ここに絞り込み条件の画面 -->
@@ -16,7 +18,7 @@ const useGetStudents = getStudents()
 
     <div class="SearchResultPanel">
       <!-- 格納した変数側にprops名を付けて利用 -->
-      <StudentList :students="useGetStudents" />
+      <StudentList :students="students" />
     </div>
   </div>
 </template>
