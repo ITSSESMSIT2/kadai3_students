@@ -35,14 +35,14 @@ const updatedAtValue = (day: string): string => {
 }
 </script>
 <template>
-  <div class="resultPanel">
-    <div class="resultTitle">
+  <div class="result-panel">
+    <div class="result-title">
       <span class="title">児童生徒一覧</span>
-      <span class="resultNum">該当n件・全件{{ students.length }}件</span>
+      <span class="result-num">該当n件・全件{{ students.length }}件</span>
     </div>
-    <table class="studentTable">
+    <table class="student-table">
       <thead>
-        <tr class="paleText">
+        <tr class="pale-text">
           <th>ID</th>
           <th>氏名</th>
           <th>ふりがな</th>
@@ -56,15 +56,15 @@ const updatedAtValue = (day: string): string => {
       </thead>
       <tbody>
         <tr class="result" v-for="student in students" :key="student.id">
-          <td class="paleText">{{ student.id }}</td>
+          <td class="pale-text">{{ student.id }}</td>
           <td>{{ student.name }}</td>
-          <td class="paleText">{{ student.kana }}</td>
+          <td class="pale-text">{{ student.kana }}</td>
           <td>{{ student.school.name }}</td>
           <td>{{ student.grade.name }}</td>
           <td>{{ classValue(student.class) }}</td>
           <td>{{ student.attendanceNumber }}</td>
           <td>{{ needsFollowValue(student.needsFollow) }}</td>
-          <td class="paleText">{{ updatedAtValue(student.updatedAt) }}</td>
+          <td class="pale-text">{{ updatedAtValue(student.updatedAt) }}</td>
         </tr>
       </tbody>
     </table>
@@ -72,7 +72,7 @@ const updatedAtValue = (day: string): string => {
 </template>
 
 <style scoped>
-.resultPanel {
+.result-panel {
   background-color: var(--surface);
   border: var(--elevation-2);
   border-radius: var(--radius-md);
@@ -81,7 +81,7 @@ const updatedAtValue = (day: string): string => {
   display: flex;
   flex-direction: column;
 }
-.resultTitle {
+.result-title {
   color: ver(--text);
   font-size: large;
   margin: var(--space-md) var(--space-sm);
@@ -92,15 +92,15 @@ const updatedAtValue = (day: string): string => {
   font-size: large;
   font-weight: bold;
 }
-.resultNum {
+.result-num {
   font-size: large;
   color: var(--text-sub);
 }
-.paleText {
+.pale-text {
   color: var(--text-sub);
 }
 
-.studentTable {
+.student-table {
   text-align: left;
 }
 </style>

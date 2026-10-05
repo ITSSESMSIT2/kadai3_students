@@ -10,20 +10,20 @@ const students = getStudents()
 </script>
 <template>
   <!-- ここに絞り込み条件の画面 -->
-  <div class="studentSearchPage">
-    <div class="searchPanel">
+  <div class="student-search-page">
+    <div class="search-panel">
       <StudentsSearchForm />
     </div>
     <!-- 児童生徒一覧のパネル -->
 
-    <div class="SearchResultPanel">
+    <div class="search-result-panel">
       <!-- 格納した変数側にprops名を付けて利用 -->
       <StudentList :students="students" />
     </div>
   </div>
 </template>
 <style scoped>
-.studentSearchPage {
+.student-search-page {
   background-color: var(--bg);
 }
 </style>

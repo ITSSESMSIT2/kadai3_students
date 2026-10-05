@@ -39,7 +39,7 @@ function printNeedsFollowChoise() {
 </script>
 
 <template>
-  <div class="searchPanel">
+  <div class="search-panel">
     <div class="title">絞り込み条件</div>
 
     <div class="first-row">
@@ -47,13 +47,13 @@ function printNeedsFollowChoise() {
         <span class="entry-title">学校（複数選択）</span>
         <span v-for="schoolName in schoolNames" :key="schoolName.id">
           <input
-            id="schoolNameCheckbox"
+            id="schoolname-checkbox"
             type="checkbox"
             :value="schoolName"
             v-model="schoolChoise"
             @change="printSchoolChoise()"
           />
-          <label id="schoolNameCheckbox">{{ schoolName.name }} </label>
+          <label id="schoolname-checkbox">{{ schoolName.name }} </label>
         </span>
       </span>
     </div>
@@ -90,14 +90,14 @@ function printNeedsFollowChoise() {
     </div>
 
     <div class="third-row">
-      <span class="needsFollow-toggle">
+      <span class="needsfollow-toggle">
         <input
-          id="needsFollow"
+          id="needs-follow"
           type="checkbox"
           v-model="needsFollowChoise"
           @change="printNeedsFollowChoise()"
         />
-        <label id="needsFollow"> 要フォローのみ表示 </label>
+        <label id="needs-follow"> 要フォローのみ表示 </label>
       </span>
 
       <span class="sort-select">
@@ -119,7 +119,7 @@ function printNeedsFollowChoise() {
 </template>
 
 <style scoped>
-.searchPanel {
+.search-panel {
   background-color: var(--surface);
   border: var(--elevation-2);
   border-radius: var(--radius-md);
