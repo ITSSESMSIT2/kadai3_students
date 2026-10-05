@@ -18,24 +18,8 @@ const classChoise = ref([])
 const userInput = ref('')
 
 const needsFollowChoise = ref(false)
-// const reset を定義して、入力値を全部消去したい
 
-// console.logで、入力値が反映されるかのみ確認（STEP2用）
-function printSchoolChoise() {
-  console.log(schoolChoise)
-}
-function printgradeChoise() {
-  console.log(gradeChoise)
-}
-function printClassChoise() {
-  console.log(classChoise)
-}
-function printUserInput() {
-  console.log(userInput)
-}
-function printNeedsFollowChoise() {
-  console.log(needsFollowChoise)
-}
+// const reset を定義して、入力値を全部消去したい
 </script>
 
 <template>
@@ -45,23 +29,17 @@ function printNeedsFollowChoise() {
     <div class="first-row">
       <span class="school-checkbox">
         <span class="entry-title">学校（複数選択）</span>
-        <span v-for="schoolName in schoolNames" :key="schoolName.id">
-          <input
-            id="schoolname-checkbox"
-            type="checkbox"
-            :value="schoolName"
-            v-model="schoolChoise"
-            @change="printSchoolChoise()"
-          />
-          <label id="schoolname-checkbox">{{ schoolName.name }} </label>
-        </span>
+        <label v-for="schoolName in schoolNames" :key="schoolName.id">
+          <input type="checkbox" :value="schoolName" v-model="schoolChoise" />
+          {{ schoolName.name }}
+        </label>
       </span>
     </div>
 
     <div class="second-row">
       <span class="grade-select">
-        <span class="entry-title">学年</span>
-        <select v-model="gradeChoise" @change="printgradeChoise()">
+        <label for="grade-select" class="entry-title">学年</label>
+        <select id="grade-select" v-model="gradeChoise">
           <option value="" selected>選択してください</option>
           <option :value="gradeName" v-for="gradeName in gradeNames" :key="gradeName.id">
             {{ gradeName.name }}
@@ -70,34 +48,25 @@ function printNeedsFollowChoise() {
       </span>
 
       <span class="class-select">
-        <span class="entry-title">組</span>
-        <select v-model="classChoise" @change="printClassChoise()">
+        <label for="class-select" class="entry-title">組</label>
+        <select id="class-select" v-model="classChoise">
           <option value="" selected>選択してください</option>
           <option :value="className" v-for="className in classNames" :key="className.id">
             {{ className.name }}
           </option>
         </select>
       </span>
+
       <span class="freeword-textbox">
         <span class="entry-title">フリーワード</span>
-        <input
-          type="text"
-          placeholder="氏名・ふりがなで検索"
-          v-model.trim="userInput"
-          @input="printUserInput()"
-        />
+        <input type="text" placeholder="氏名・ふりがなで検索" v-model.trim="userInput" />
       </span>
     </div>
 
     <div class="third-row">
       <span class="needsfollow-toggle">
-        <input
-          id="needs-follow"
-          type="checkbox"
-          v-model="needsFollowChoise"
-          @change="printNeedsFollowChoise()"
-        />
-        <label id="needs-follow"> 要フォローのみ表示 </label>
+        <input id="needs-follow" type="checkbox" v-model="needsFollowChoise" />
+        <label for="needs-follow"> 要フォローのみ表示 </label>
       </span>
 
       <span class="sort-select">
