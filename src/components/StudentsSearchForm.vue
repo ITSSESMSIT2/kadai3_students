@@ -5,26 +5,37 @@ import { ref } from 'vue'
 import { getClasses, getSchools } from '@/api/schoolApi'
 import { getGrades } from '@/api/schoolApi'
 
-const schoolChoose = ref([])
+const schoolChoise = ref([])
 // APIを取得する関数を設定する。→扱い方を関数でなく変数にする
 const schoolNames = getSchools()
 
 const gradeNames = getGrades()
-const gradeChoose = ref([])
+const gradeChoise = ref([])
 
 const classNames = getClasses()
-const classChoose = ref([])
+const classChoise = ref([])
 
 const userInput = ref('')
 
-const needsFollowChoose = ref(false)
+const needsFollowChoise = ref(false)
 // const reset を定義して、入力値を全部消去したい
 
 // console.logなどで手段で、入力値が反映されるかだけ確認、「自分でこうやりました」を報告
-// const model = defineModel()
-// function writeState() {
-//   console.log(userInput)
-// }
+function printSchoolChoise() {
+  console.log(schoolChoise)
+}
+function printgradeChoise() {
+  console.log(gradeChoise)
+}
+function printClassChoise() {
+  console.log(classChoise)
+}
+function printUserInput() {
+  console.log(userInput)
+}
+function printNeedsFollowChoise() {
+  console.log(needsFollowChoise)
+}
 </script>
 
 <template>
@@ -36,11 +47,11 @@ const needsFollowChoose = ref(false)
         <span class="entry-title">学校（複数選択）</span>
         <span v-for="schoolName in schoolNames" :key="schoolName.id">
           <input
-            @change="writeState()"
             id="schoolNameCheckbox"
             type="checkbox"
             :value="schoolName"
-            v-model="schoolChoose"
+            v-model="schoolChoise"
+            @change="printSchoolChoise()"
           />
           <label id="schoolNameCheckbox">{{ schoolName.name }} </label>
         </span>
@@ -50,9 +61,9 @@ const needsFollowChoose = ref(false)
     <div class="second-row">
       <span class="grade-select">
         <span class="entry-title">学年</span>
-        <select v-model="gradeChoose">
-          <option value="" disabled selected>選択してください</option>
-          <option v-for="gradeName in gradeNames" :key="gradeName.id">
+        <select v-model="gradeChoise" @change="printgradeChoise()">
+          <option value="" selected>選択してください</option>
+          <option :value="gradeName" v-for="gradeName in gradeNames" :key="gradeName.id">
             {{ gradeName.name }}
           </option>
         </select>
@@ -60,9 +71,11 @@ const needsFollowChoose = ref(false)
 
       <span class="class-select">
         <span class="entry-title">組</span>
-        <select v-model="classChoose">
-          <option value="disabled" selected>選択してください</option>
-          <option v-for="className in classNames" :key="className.id">{{ className.name }}</option>
+        <select v-model="classChoise" @change="printClassChoise()">
+          <option value="" selected>選択してください</option>
+          <option :value="className" v-for="className in classNames" :key="className.id">
+            {{ className.name }}
+          </option>
         </select>
       </span>
       <span class="freeword-textbox">
@@ -70,15 +83,20 @@ const needsFollowChoose = ref(false)
         <input
           type="text"
           placeholder="氏名・ふりがなで検索"
-          @input="writeState()"
           v-model.trim="userInput"
+          @input="printUserInput()"
         />
       </span>
     </div>
 
     <div class="third-row">
       <span class="needsFollow-toggle">
-        <input id="needsFollow" type="checkbox" v-model="needsFollowChoose" />
+        <input
+          id="needsFollow"
+          type="checkbox"
+          v-model="needsFollowChoise"
+          @change="printNeedsFollowChoise()"
+        />
         <label id="needsFollow"> 要フォローのみ表示 </label>
       </span>
 
@@ -93,7 +111,7 @@ const needsFollowChoose = ref(false)
       </span>
 
       <span class="resetbutton">
-        <!-- 何かしらクリックで関数を呼び、それぞれの管理しているrefの初期化処理を行う。最初に入れた文字を再入力したいという意図-->
+        <!-- 何かしらクリックで関数を呼び、それぞれの管理しているrefの初期化処理を行う。初期値で上書きするイメージ-->
         <button>絞り込みをクリア</button>
       </span>
     </div>
