@@ -20,7 +20,7 @@ const userInput = ref('')
 const needsFollowChoise = ref(false)
 // const reset を定義して、入力値を全部消去したい
 
-// console.logなどで手段で、入力値が反映されるかだけ確認、「自分でこうやりました」を報告
+// console.logで、入力値が反映されるかのみ確認（STEP2用）
 function printSchoolChoise() {
   console.log(schoolChoise)
 }
