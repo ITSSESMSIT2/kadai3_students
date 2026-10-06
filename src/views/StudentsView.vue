@@ -32,7 +32,6 @@ const needsFollowChoise = ref(false)
     <!-- 児童生徒一覧のパネル -->
 
     <div class="search-result-panel">
-      <!-- 格納した変数側にprops名を付けて利用 -->
       <StudentList :students="students" />
     </div>
   </div>
