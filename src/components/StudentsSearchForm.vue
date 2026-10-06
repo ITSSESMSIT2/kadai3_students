@@ -47,7 +47,7 @@ const needsFollowChoise = defineModel<boolean>('needsfollow-choise', { required:
       <span class="class-select">
         <label for="class-select" class="entry-title">組</label>
         <select id="class-select" v-model="classChoise">
-          <option :value="null" selected>すべて</option>
+          <option :value="null">すべて</option>
           <option :value="className" v-for="className in classNames" :key="className.id">
             {{ className.name }}
           </option>
