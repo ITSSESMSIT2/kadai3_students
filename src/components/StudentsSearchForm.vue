@@ -1,25 +1,22 @@
 <!-- 検索条件の機能本体 -->
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { getClasses, getSchools } from '@/api/schoolApi'
 import { getGrades } from '@/api/schoolApi'
+import type { Grade, School, SchoolClass } from '@/types/school'
 
-const schoolChoise = ref([])
 // APIを取得する関数を設定する。→扱い方を関数でなく変数にする
 const schoolNames = getSchools()
-
 const gradeNames = getGrades()
-const gradeChoise = ref([])
-
 const classNames = getClasses()
-const classChoise = ref([])
 
-const userInput = ref('')
-
-const needsFollowChoise = ref(false)
-
-// const reset を定義して、入力値を全部消去したい
+// defineModelを利用し、親のデータを呼び出す
+const schoolChoise = defineModel<School[]>('school-choise', { required: true })
+const gradeChoise = defineModel<Grade | null>('grade-choise', { required: true })
+const classChoise = defineModel<SchoolClass | null>('class-choise', { required: true })
+const userInput = defineModel<string>('user-input', { required: true })
+const needsFollowChoise = defineModel<boolean>('needsfollow-choise', { required: true })
+// const reset を定義して、入力値を全て消去したい（STEP3）
 </script>
 
 <template>
@@ -40,7 +37,7 @@ const needsFollowChoise = ref(false)
       <span class="grade-select">
         <label for="grade-select" class="entry-title">学年</label>
         <select id="grade-select" v-model="gradeChoise">
-          <option value="" selected>選択してください</option>
+          <option value="null" selected>すべて</option>
           <option :value="gradeName" v-for="gradeName in gradeNames" :key="gradeName.id">
             {{ gradeName.name }}
           </option>
@@ -50,7 +47,7 @@ const needsFollowChoise = ref(false)
       <span class="class-select">
         <label for="class-select" class="entry-title">組</label>
         <select id="class-select" v-model="classChoise">
-          <option value="" selected>選択してください</option>
+          <option value="null" selected>すべて</option>
           <option :value="className" v-for="className in classNames" :key="className.id">
             {{ className.name }}
           </option>
@@ -58,8 +55,13 @@ const needsFollowChoise = ref(false)
       </span>
 
       <span class="freeword-textbox">
-        <span class="entry-title">フリーワード</span>
-        <input type="text" placeholder="氏名・ふりがなで検索" v-model.trim="userInput" />
+        <label for="user-input" class="entry-title">フリーワード</label>
+        <input
+          id="user-input"
+          type="text"
+          placeholder="氏名・ふりがなで検索"
+          v-model.trim="userInput"
+        />
       </span>
     </div>
 
