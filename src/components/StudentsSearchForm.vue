@@ -14,37 +14,37 @@ const gradeNames = getGrades()
 const classNames = getClasses()
 
 // defineModelを利用し、親のデータを呼び出す
-const schoolChoise = defineModel<School[]>('school-choise', { required: true })
-const gradeChoise = defineModel<Grade | null>('grade-choise', { required: true })
-const classChoise = defineModel<SchoolClass | null>('class-choise', { required: true })
+const schoolChoice = defineModel<School[]>('school-choice', { required: true })
+const gradeChoice = defineModel<Grade | null>('grade-choice', { required: true })
+const classChoice = defineModel<SchoolClass | null>('class-choice', { required: true })
 const userInput = defineModel<string>('user-input', { required: true })
-const needsFollowChoise = defineModel<boolean>('needsfollow-choise', { required: true })
+const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required: true })
 // const reset を定義して、入力値を全て消去したい（STEP3）
 
 // 今やりたいこと＝schoolは複数の値を持つ配列だから、その値一つ一つに対しアクセスしたい。
 // アクセスしてどうするの→該当のidを持つ生徒をstudentsから拾ってきて一覧表示
-// schoolChoiseがそもそも配列になっているから、一回schoolChoiseの中に入っている情報のidを取得する？
+// schoolChoiceがそもそも配列になっているから、一回schoolChoiceの中に入っている情報のidを取得する？
 
-// schoolIdに今入っているのは、schoolchoiseのオブジェクトたちのうち、id
+// schoolIdに今入っているのは、schoolchoiceのオブジェクトたちのうち、id
 // のはずだが、戻り値の型が勝手にNumber[]になっている。
 
-const schoolIds = schoolChoise.value.map((element) => element.id)
+const schoolIds = schoolChoice.value.map((element) => element.id)
 
 const newSchool = students.filter(() => {
   return students.includes(schoolIds)
 })
 
-// 現在型が配列のCodeName[]になっているのでエラー　→　もともとschoolChoiseに複数の値が入るから。定義したものに何が入っているのかを意識
+// 現在型が配列のCodeName[]になっているのでエラー　→　もともとschoolChoiceに複数の値が入るから。定義したものに何が入っているのかを意識
 // 一旦配列の中身それぞれに行えればいいので、filterでもいいしforでもいいし手段はいろいろある
 
 const newGrade = students.filter((student) => {
-  if (gradeChoise.value !== null) {
-    return student.grade.id === gradeChoise.value.id
+  if (gradeChoice.value !== null) {
+    return student.grade.id === gradeChoice.value.id
   }
 })
-// const newClassChoise = students.filter((student) => {
-//   if (student.class !== null && classChoise.value !== null) {
-//     return student.class.id === classChoise.value.id
+// const newClassChoice = students.filter((student) => {
+//   if (student.class !== null && classChoice.value !== null) {
+//     return student.class.id === classChoice.value.id
 //   }
 // })
 // const newUserInput = students.filter((student) => {
@@ -54,8 +54,8 @@ const newGrade = students.filter((student) => {
 // })
 
 // const newNeedsFollow = students.filter((student) => {
-//   if (needsFollowChoise.value === true) {
-//     return student.needsFollow === needsFollowChoise.value
+//   if (needsFollowChoice.value === true) {
+//     return student.needsFollow === needsFollowChoice.value
 //   }
 // })
 
@@ -65,7 +65,7 @@ const newGrade = students.filter((student) => {
 //   if (student !== null) {
 //     // その関数を呼びたい生徒の一覧は？40件を5回フィルターしている状態になってしまっている→まず一件に対しかけて絞っていくか、40件全体に一気にフィルターをかけるか。
 //     // 今回の場合、すべてに一致する人物がいたら非効率。フィルターをかける回数を減らす。既存の方向の場合、関数をかけたものを次に渡すができていない。
-//     return newSchool && newGrade && newClassChoise && newUserInput && newNeedsFollow
+//     return newSchool && newGrade && newClassChoice && newUserInput && newNeedsFollow
 //   }
 //   return student
 // })
@@ -75,15 +75,15 @@ const newGrade = students.filter((student) => {
   <div class="search-panel">
     <div class="title">絞り込み条件</div>
     <!-- {{ searchFilterValue }} -->
-    {{ gradeChoise }}
+    {{ gradeChoice }}
     {{ schoolId }}
-    {{ schoolChoise }}
+    {{ schoolChoice }}
 
     <div class="first-row">
       <span class="school-checkbox">
         <span class="entry-title">学校（複数選択）</span>
         <label v-for="schoolName in schoolNames" :key="schoolName.id">
-          <input type="checkbox" :value="schoolName" v-model="schoolChoise" />
+          <input type="checkbox" :value="schoolName" v-model="schoolChoice" />
           {{ schoolName.name }}
         </label>
       </span>
@@ -92,7 +92,7 @@ const newGrade = students.filter((student) => {
     <div class="second-row">
       <span class="grade-select">
         <label for="grade-select" class="entry-title">学年</label>
-        <select id="grade-select" v-model="gradeChoise">
+        <select id="grade-select" v-model="gradeChoice">
           <option :value="null">すべて</option>
           <option :value="gradeName" v-for="gradeName in gradeNames" :key="gradeName.id">
             {{ gradeName.name }}
@@ -102,7 +102,7 @@ const newGrade = students.filter((student) => {
 
       <span class="class-select">
         <label for="class-select" class="entry-title">組</label>
-        <select id="class-select" v-model="classChoise">
+        <select id="class-select" v-model="classChoice">
           <option :value="null">すべて</option>
           <option :value="className" v-for="className in classNames" :key="className.id">
             {{ className.name }}
@@ -123,7 +123,7 @@ const newGrade = students.filter((student) => {
 
     <div class="third-row">
       <span class="needsfollow-toggle">
-        <input id="needs-follow" type="checkbox" v-model="needsFollowChoise" />
+        <input id="needs-follow" type="checkbox" v-model="needsFollowChoice" />
         <label for="needs-follow"> 要フォローのみ表示 </label>
       </span>
 

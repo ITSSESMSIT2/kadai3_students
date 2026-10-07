@@ -10,11 +10,11 @@ import type { Grade, School, SchoolClass } from '@/types/school'
 const students = getStudents()
 
 // 入力フォームの実データを格納
-const schoolChoise = ref<School[]>([])
-const gradeChoise = ref<Grade | null>(null)
-const classChoise = ref<SchoolClass | null>(null)
+const schoolChoice = ref<School[]>([])
+const gradeChoice = ref<Grade | null>(null)
+const classChoice = ref<SchoolClass | null>(null)
 const userInput = ref('')
-const needsFollowChoise = ref(false)
+const needsFollowChoice = ref(false)
 </script>
 
 <template>
@@ -22,11 +22,11 @@ const needsFollowChoise = ref(false)
   <div class="student-search-page">
     <div class="search-panel">
       <StudentsSearchForm
-        v-model:school-choise="schoolChoise"
-        v-model:grade-choise="gradeChoise"
-        v-model:class-choise="classChoise"
+        v-model:school-choice="schoolChoice"
+        v-model:grade-choice="gradeChoice"
+        v-model:class-choice="classChoice"
         v-model:user-input="userInput"
-        v-model:needsfollow-choise="needsFollowChoise"
+        v-model:needsfollow-choice="needsFollowChoice"
       />
     </div>
     <!-- 児童生徒一覧のパネル -->
