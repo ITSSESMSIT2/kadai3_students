@@ -3,7 +3,10 @@
 <script setup lang="ts">
 import { getClasses, getSchools } from '@/api/schoolApi'
 import { getGrades } from '@/api/schoolApi'
+import { students } from '@/data/students'
+import type { CodeName } from '@/types/common'
 import type { Grade, School, SchoolClass } from '@/types/school'
+import { computed } from 'vue'
 
 // APIを取得する関数を設定する。→扱い方を関数でなく変数にする
 const schoolNames = getSchools()
@@ -17,11 +20,64 @@ const classChoise = defineModel<SchoolClass | null>('class-choise', { required: 
 const userInput = defineModel<string>('user-input', { required: true })
 const needsFollowChoise = defineModel<boolean>('needsfollow-choise', { required: true })
 // const reset を定義して、入力値を全て消去したい（STEP3）
+
+// 今やりたいこと＝schoolは複数の値を持つ配列だから、その値一つ一つに対しアクセスしたい。
+// アクセスしてどうするの→該当のidを持つ生徒をstudentsから拾ってきて一覧表示
+// schoolChoiseがそもそも配列になっているから、一回schoolChoiseの中に入っている情報のidを取得する？
+
+// schoolIdに今入っているのは、schoolchoiseのオブジェクトたちのうち、id
+// のはずだが、戻り値の型が勝手にNumber[]になっている。
+
+const schoolIds = schoolChoise.value.map((element) => element.id)
+
+const newSchool = students.filter(() => {
+  return students.includes(schoolIds)
+})
+
+// 現在型が配列のCodeName[]になっているのでエラー　→　もともとschoolChoiseに複数の値が入るから。定義したものに何が入っているのかを意識
+// 一旦配列の中身それぞれに行えればいいので、filterでもいいしforでもいいし手段はいろいろある
+
+const newGrade = students.filter((student) => {
+  if (gradeChoise.value !== null) {
+    return student.grade.id === gradeChoise.value.id
+  }
+})
+// const newClassChoise = students.filter((student) => {
+//   if (student.class !== null && classChoise.value !== null) {
+//     return student.class.id === classChoise.value.id
+//   }
+// })
+// const newUserInput = students.filter((student) => {
+//   if (userInput.value !== null) {
+//     // 氏名のかな・漢字と一致するものすべてをもってくる
+//   }
+// })
+
+// const newNeedsFollow = students.filter((student) => {
+//   if (needsFollowChoise.value === true) {
+//     return student.needsFollow === needsFollowChoise.value
+//   }
+// })
+
+// 複数条件を一回だけ呼び出す関数を作り、それを配列に使って結果を出す
+
+// const searchFilterValue = computed((student) => {
+//   if (student !== null) {
+//     // その関数を呼びたい生徒の一覧は？40件を5回フィルターしている状態になってしまっている→まず一件に対しかけて絞っていくか、40件全体に一気にフィルターをかけるか。
+//     // 今回の場合、すべてに一致する人物がいたら非効率。フィルターをかける回数を減らす。既存の方向の場合、関数をかけたものを次に渡すができていない。
+//     return newSchool && newGrade && newClassChoise && newUserInput && newNeedsFollow
+//   }
+//   return student
+// })
 </script>
 
 <template>
   <div class="search-panel">
     <div class="title">絞り込み条件</div>
+    <!-- {{ searchFilterValue }} -->
+    {{ gradeChoise }}
+    {{ schoolId }}
+    {{ schoolChoise }}
 
     <div class="first-row">
       <span class="school-checkbox">
