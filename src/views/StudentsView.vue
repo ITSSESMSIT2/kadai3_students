@@ -67,4 +67,11 @@ function resetValue() {
 .student-search-page {
   background-color: var(--bg);
 }
+.search-panel {
+  background-color: var(--surface);
+  border: var(--elevation-2);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  margin: var(--space-md);
+}
 </style>
