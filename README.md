@@ -319,3 +319,43 @@ main にマージされると `.github/workflows/deploy.yml` が動き、ビル�
 - arrayにまつわるメソッド
   - .map()
   - .include()
+
+- 条件式の記述<br>
+  インターネット検索で関数までは立てたが、うまく動かずご相談。<br>
+
+  ```javascript
+   const newGrade = function (student: Student) {
+     if (gradeChoice.value !== null) {
+        return student.grade.id === gradeChoice.value.id
+     }
+     return true
+    }
+  ```
+
+  今回、目的としてstudents配列に対し5つの検索条件を&&でつなぎ、.filter()を利用することで条件に応じた新しい配列を作ることがあった。そのため、検索条件として用意すべき内容は、boolean型で判定を行う、.filter()内に本来個別で書くものである。（例に出したgradeであれば、stateと現在同期しているgradeChoiceの値と、students配列の一つ一つの値を比較し、trueなら新しい配列へ、falseなら無視する、というもの。）<br>
+  そのため、判定の関数を用意し以下のようにcomputedに持たせる。
+
+  ```javascript
+  const searchFilterValue = computed(() => {
+    return students.filter((student) => {
+      return (
+        newSchool(student) &&
+        newGrade(student) &&
+        newClassChoice(student) &&
+        newUserInput(student) &&
+        newNeedsFollow(student)
+      )
+    })
+  })
+  ```
+
+  各検索条件で詰まった内容としては、<br>
+  - newSchool<br>
+    idを取得するための配列がcomputed外にあり、初期値（未選択）の状態で常に検索をかけてしまった。
+  - newGrade<br>
+    初期値（すべて）の戻り値をtrueではなくstudent===studentという不適切な値にしていた。他の箇所も同様。
+  - newUserInput<br>
+    初期値には空文字が入っているが、検索条件をnullにおいてしまった。また、.trim()のつけ忘れ。ユーザーがスペースを入力した際に検索をはじくため、userInput.value.trim()!=='' と置くのが良い。.trim()の位置に関しても、userInputというobjectの中のvalueの中にstringがあるはずなので、stringにつけるメソッドである.trim()は.valueの後ろに置く。
+
+- console.logおよびconstの利用<br>
+  質問時、こまめに利用するようアドバイスをいただいた。変数の中に何が入っているか、関数の中の処理はどこまで成功しているかを確認する際に引き続き利用する。変数の内容に関してはVueの機能を使用するのもよい。
