@@ -23,14 +23,15 @@ const userInput = defineModel<string>('user-input', { required: true })
 const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required: true })
 
 // const reset を定義して、入力値を全て消去したい（STEP3）
-function resetValue() {
-  schoolChoice.value = []
-  gradeChoice.value = null
-  classChoice.value = null
-  userInput.value = ''
-  needsFollowChoice.value = false
-  return students
-}
+// clickしたときに起こる処理を書いている、複数処理を行いたいがクリック一回で処理が全部走るようにまとめている
+// returnを使う→値を返す　なので今回そこまでを行う必要がない（returnする相手がいない）
+// function resetValue() {
+//   schoolChoice.value = []
+//   gradeChoice.value = null
+//   classChoice.value = null
+//   userInput.value = ''
+//   needsFollowChoice.value = false
+// }
 
 // element.school.idはただのnumberであり、そのnumberがschoolIds配列の中にあればelementを返す。
 const newSchool = function (student: Student) {
@@ -72,24 +73,30 @@ const newNeedsFollow = function (student: Student) {
   }
 }
 
-// 5つの関数をまとめたい
+// 5つの関数をまとめたい→配列０→filterで失敗している
+
 const searchFilterValue = computed(() => {
-  console.log('searchFilterValue動いてる')
   return students.filter((student) => {
-    newSchool(student) &&
+    return (
+      newSchool(student) &&
       newGrade(student) &&
       newClassChoice(student) &&
       newUserInput(student) &&
       newNeedsFollow(student)
+    )
   })
 })
 
 // 親コンポーネントにデータを送るためのイベントを用意
-const emit = defineEmits(['search'])
+const emit = defineEmits(['search', 'reset'])
 
 const onChange = () => {
   emit('search', searchFilterValue.value)
 }
+// もしresetの処理もemitで渡すならば
+// const onReset = () => {
+//   emit('reset', students.resetValue())
+// }
 
 // 複数条件を一回だけ呼び出す関数を作り、それを配列に使って結果を出す
 // その関数を呼びたい生徒の一覧は？40件を5回フィルターしている状態になってしまっている→まず一件に対しかけて絞っていくか、40件全体に一気にフィルターをかけるか。
@@ -157,13 +164,7 @@ const onChange = () => {
         </select>
         <button class="change-order">昇順↑</button>
       </span>
-
-      <span class="reset-button">
-        <!-- 何かしらクリックで関数を呼び、それぞれの管理しているrefの初期化処理を行う。初期値で上書きするイメージ-->
-        <button @click="resetValue">絞り込みをクリア</button>
-      </span>
     </div>
-    {{ searchFilterValue }}
   </div>
 </template>
 

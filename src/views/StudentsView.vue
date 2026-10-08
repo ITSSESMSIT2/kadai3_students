@@ -24,6 +24,16 @@ function onSearch(filtered: Student[]) {
   console.log('onSearch動いてる')
   return (results.value = filtered)
 }
+
+// リセットボタン
+function resetValue() {
+  schoolChoice.value = []
+  gradeChoice.value = null
+  classChoice.value = null
+  userInput.value = ''
+  needsFollowChoice.value = false
+  results.value = students
+}
 </script>
 
 <template>
@@ -39,6 +49,11 @@ function onSearch(filtered: Student[]) {
         :students="students"
         @search="onSearch"
       />
+
+      <span class="reset-button">
+        <!-- 何かしらクリックで関数を呼び、それぞれの管理しているrefの初期化処理を行う。初期値で上書きするイメージ-->
+        <button @click="resetValue">絞り込みをクリア</button>
+      </span>
     </div>
     <!-- 児童生徒一覧のパネル -->
 
