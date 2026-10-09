@@ -7,7 +7,16 @@ import type { Student } from '@/types/student'
 // 親コンポーネントから、Student型の配列を受け取る
 defineProps<{
   searchFilterValue: Student[]
+  students: Student[]
 }>()
+// かなが空の場合の処理
+const kanaValue = (kana: string): string => {
+  if (kana !== '') {
+    return kana
+  } else {
+    return '-'
+  }
+}
 
 // 組がnullの場合の処理
 const classValue = (className: SchoolClass | null): string => {
@@ -39,7 +48,9 @@ const updatedAtValue = (day: string): string => {
   <div class="result-panel">
     <div class="result-title">
       <span class="title">児童生徒一覧</span>
-      <span class="result-num">該当{{ searchFilterValue.length }}件・全件{{}}件</span>
+      <span class="result-num"
+        >該当{{ searchFilterValue.length }}件・全件{{ students.length }}件</span
+      >
     </div>
     <table class="student-table">
       <thead>
@@ -56,10 +67,13 @@ const updatedAtValue = (day: string): string => {
         </tr>
       </thead>
       <tbody>
+        <template v-if="searchFilterValue.length === 0"
+          >該当する児童生徒がいません。検索条件を変更してください。</template
+        >
         <tr class="result" v-for="student in searchFilterValue" :key="student.id">
           <td class="pale-text">{{ student.id }}</td>
           <td>{{ student.name }}</td>
-          <td class="pale-text">{{ student.kana }}</td>
+          <td class="pale-text">{{ kanaValue(student.kana) }}</td>
           <td>{{ student.school.name }}</td>
           <td>{{ student.grade.name }}</td>
           <td>{{ classValue(student.class) }}</td>
