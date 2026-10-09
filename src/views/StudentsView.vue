@@ -92,7 +92,6 @@ function resetValue() {
         v-model:class-choice="classChoice"
         v-model:user-input="userInput"
         v-model:needsfollow-choice="needsFollowChoice"
-        :students="students"
       />
       <span class="reset-button">
         <button @click="resetValue">絞り込みをクリア</button>
