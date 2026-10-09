@@ -16,6 +16,7 @@ const gradeChoice = defineModel<Grade | null>('grade-choice', { required: true }
 const classChoice = defineModel<SchoolClass | null>('class-choice', { required: true })
 const userInput = defineModel<string>('user-input', { required: true })
 const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required: true })
+const sortList = defineModel<string[] | null>('sort-list', { required: true })
 </script>
 
 <template>
@@ -70,11 +71,12 @@ const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required:
 
     <span class="sort-select">
       <span class="entry-title">並び替え</span>
-      <select>
-        <option>ふりがな</option>
-        <option>学年</option>
-        <option>更新日</option>
+      <select v-model="sortList">
+        <option value="sort-kana">ふりがな</option>
+        <option value="sort-grade">学年</option>
+        <option value="sort-date">更新日</option>
       </select>
+      {{ sortList }}
       <button class="change-order">昇順↑</button>
     </span>
   </div>

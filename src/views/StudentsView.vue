@@ -17,6 +17,7 @@ const gradeChoice = ref<Grade | null>(null)
 const classChoice = ref<SchoolClass | null>(null)
 const userInput = ref('')
 const needsFollowChoice = ref(false)
+const sortList = ref<string[] | null>([])
 
 // 検索条件
 const newSchool = function (student: Student) {
@@ -79,7 +80,47 @@ function resetValue() {
   classChoice.value = null
   userInput.value = ''
   needsFollowChoice.value = false
+  sortList.value = []
 }
+
+// 並べ替え
+// 並べ替え条件の関数
+// 後で必ずふりがながない人を後ろに回す条件を付ける
+const kanaSort = (a: Student, b: Student) => {
+  if (a.kana < b.kana) {
+    return -1
+  } else return 1
+}
+const gradeSort = (a: Student, b: Student) => {
+  if (a.grade.id < b.grade.id) {
+    return -1
+  } else {
+    return 1
+  }
+}
+const dateSort = (a: Student, b: Student) => {
+  if (a.updatedAt < b.updatedAt) {
+    return -1
+  } else {
+    return 1
+  }
+}
+
+// ここが多分違うので火曜日修正。いま、sortConditionには何が入っている？そもそもgradeSortなどの検索条件ってうまくいっているか？
+// 一旦dateSortとか配列だけ描写できるか確認しておく。
+const sortCondition = (element: String) => {
+  if (element === 'sort-grade') {
+    return searchFilterValue.value.sort(gradeSort)
+  } else if (element === 'sort-date') {
+    return searchFilterValue.value.sort(dateSort)
+  } else {
+    return searchFilterValue.value.sort(kanaSort)
+  }
+}
+
+const sortValue = computed(() => {
+  return sortCondition
+})
 </script>
 
 <template>
@@ -92,6 +133,7 @@ function resetValue() {
         v-model:class-choice="classChoice"
         v-model:user-input="userInput"
         v-model:needsfollow-choice="needsFollowChoice"
+        v-model:sort-list="sortList"
       />
       <span class="reset-button">
         <button @click="resetValue">絞り込みをクリア</button>
@@ -100,7 +142,7 @@ function resetValue() {
     <!-- 児童生徒一覧のパネル -->
 
     <div class="search-result-panel">
-      <StudentList :searchFilterValue="searchFilterValue" :students="students" />
+      <StudentList :students="students" :sortValue="sortValue" />
     </div>
   </div>
 </template>
