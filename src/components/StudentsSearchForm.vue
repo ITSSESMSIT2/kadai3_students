@@ -3,7 +3,6 @@
 <script setup lang="ts">
 import { getClasses, getSchools } from '@/api/schoolApi'
 import { getGrades } from '@/api/schoolApi'
-
 import type { Grade, School, SchoolClass } from '@/types/school'
 
 // APIを取得する関数を設定する。→扱い方を関数でなく変数にする
@@ -17,23 +16,6 @@ const gradeChoice = defineModel<Grade | null>('grade-choice', { required: true }
 const classChoice = defineModel<SchoolClass | null>('class-choice', { required: true })
 const userInput = defineModel<string>('user-input', { required: true })
 const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required: true })
-
-// const reset を定義して、入力値を全て消去したい（STEP3）
-// clickしたときに起こる処理を書いている、複数処理を行いたいがクリック一回で処理が全部走るようにまとめている
-// returnを使う→値を返す　なので今回そこまでを行う必要がない（returnする相手がいない）
-// function resetValue() {
-//   schoolChoice.value = []
-//   gradeChoice.value = null
-//   classChoice.value = null
-//   userInput.value = ''
-//   needsFollowChoice.value = false
-// }
-
-// element.school.idはただのnumberであり、そのnumberがschoolIds配列の中にあればelementを返す。
-
-// 複数条件を一回だけ呼び出す関数を作り、それを配列に使って結果を出す
-// その関数を呼びたい生徒の一覧は？40件を5回フィルターしている状態になってしまっている→まず一件に対しかけて絞っていくか、40件全体に一気にフィルターをかけるか。
-// 今回の場合、すべてに一致する人物がいたら非効率。フィルターをかける回数を減らす。既存の方向の場合、関数をかけたものを次に渡すができていない。
 </script>
 
 <template>
