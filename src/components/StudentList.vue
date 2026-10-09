@@ -6,8 +6,17 @@ import type { Student } from '@/types/student'
 
 // 親コンポーネントから、Student型の配列を受け取る
 defineProps<{
+  searchFilterValue: Student[]
   students: Student[]
 }>()
+// かなが空の場合の処理
+const kanaValue = (kana: string): string => {
+  if (kana !== '') {
+    return kana
+  } else {
+    return '-'
+  }
+}
 
 // 組がnullの場合の処理
 const classValue = (className: SchoolClass | null): string => {
@@ -34,40 +43,48 @@ const updatedAtValue = (day: string): string => {
   })
 }
 </script>
+
 <template>
   <div class="result-panel">
     <div class="result-title">
       <span class="title">児童生徒一覧</span>
-      <span class="result-num">該当n件・全件{{ students.length }}件</span>
+      <span class="result-num"
+        >該当{{ searchFilterValue.length }}件 / 全{{ students.length }}件</span
+      >
     </div>
-    <table class="student-table">
-      <thead>
-        <tr class="pale-text">
-          <th>ID</th>
-          <th>氏名</th>
-          <th>ふりがな</th>
-          <th>学校</th>
-          <th>学年</th>
-          <th>組</th>
-          <th>出席番号</th>
-          <th>要フォロー</th>
-          <th>更新日</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="result" v-for="student in students" :key="student.id">
-          <td class="pale-text">{{ student.id }}</td>
-          <td>{{ student.name }}</td>
-          <td class="pale-text">{{ student.kana }}</td>
-          <td>{{ student.school.name }}</td>
-          <td>{{ student.grade.name }}</td>
-          <td>{{ classValue(student.class) }}</td>
-          <td>{{ student.attendanceNumber }}</td>
-          <td>{{ needsFollowValue(student.needsFollow) }}</td>
-          <td class="pale-text">{{ updatedAtValue(student.updatedAt) }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <template v-if="searchFilterValue.length === 0"
+      >該当する児童生徒がいません。検索条件を変更してください。</template
+    >
+    <template v-else>
+      <table class="student-table">
+        <thead>
+          <tr class="pale-text">
+            <th>ID</th>
+            <th>氏名</th>
+            <th>ふりがな</th>
+            <th>学校</th>
+            <th>学年</th>
+            <th>組</th>
+            <th>出席番号</th>
+            <th>要フォロー</th>
+            <th>更新日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="result" v-for="student in searchFilterValue" :key="student.id">
+            <td class="pale-text">{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td class="pale-text">{{ kanaValue(student.kana) }}</td>
+            <td>{{ student.school.name }}</td>
+            <td>{{ student.grade.name }}</td>
+            <td>{{ classValue(student.class) }}</td>
+            <td>{{ student.attendanceNumber }}</td>
+            <td>{{ needsFollowValue(student.needsFollow) }}</td>
+            <td class="pale-text">{{ updatedAtValue(student.updatedAt) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </template>
   </div>
 </template>
 
