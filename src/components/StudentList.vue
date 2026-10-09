@@ -6,7 +6,7 @@ import type { Student } from '@/types/student'
 
 // 親コンポーネントから、Student型の配列を受け取る
 defineProps<{
-  results: Student[]
+  searchFilterValue: Student[]
 }>()
 
 // 組がnullの場合の処理
@@ -39,7 +39,7 @@ const updatedAtValue = (day: string): string => {
   <div class="result-panel">
     <div class="result-title">
       <span class="title">児童生徒一覧</span>
-      <span class="result-num">該当{{ results.length }}件・全件{{}}件</span>
+      <span class="result-num">該当{{ searchFilterValue.length }}件・全件{{}}件</span>
     </div>
     <table class="student-table">
       <thead>
@@ -56,7 +56,7 @@ const updatedAtValue = (day: string): string => {
         </tr>
       </thead>
       <tbody>
-        <tr class="result" v-for="student in results" :key="student.id">
+        <tr class="result" v-for="student in searchFilterValue" :key="student.id">
           <td class="pale-text">{{ student.id }}</td>
           <td>{{ student.name }}</td>
           <td class="pale-text">{{ student.kana }}</td>
