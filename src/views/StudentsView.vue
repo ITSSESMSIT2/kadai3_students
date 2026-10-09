@@ -94,16 +94,14 @@ function resetValue() {
         v-model:needsfollow-choice="needsFollowChoice"
         :students="students"
       />
-
       <span class="reset-button">
-        <!-- 何かしらクリックで関数を呼び、それぞれの管理しているrefの初期化処理を行う。初期値で上書きするイメージ-->
         <button @click="resetValue">絞り込みをクリア</button>
       </span>
     </div>
     <!-- 児童生徒一覧のパネル -->
 
     <div class="search-result-panel">
-      <StudentList :searchFilterValue="searchFilterValue" />
+      <StudentList :searchFilterValue="searchFilterValue" :students="students" />
     </div>
   </div>
 </template>
