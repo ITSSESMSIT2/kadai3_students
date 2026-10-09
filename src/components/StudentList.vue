@@ -49,7 +49,7 @@ const updatedAtValue = (day: string): string => {
     <div class="result-title">
       <span class="title">児童生徒一覧</span>
       <span class="result-num"
-        >該当{{ searchFilterValue.length }}件・全件{{ students.length }}件</span
+        >該当{{ searchFilterValue.length }}件 / 全{{ students.length }}件</span
       >
     </div>
     <table class="student-table">
