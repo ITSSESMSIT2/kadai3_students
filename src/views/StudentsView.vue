@@ -36,8 +36,8 @@ const newGrade = function (student: Student) {
 }
 
 const newClassChoice = function (student: Student) {
-  if (student.class !== null && classChoice.value !== null) {
-    return student.class.id === classChoice.value.id
+  if (classChoice.value !== null) {
+    return student.class?.id === classChoice.value.id
   } else {
     return true
   }
