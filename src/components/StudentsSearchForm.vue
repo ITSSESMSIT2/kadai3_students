@@ -16,7 +16,7 @@ const gradeChoice = defineModel<Grade | null>('grade-choice', { required: true }
 const classChoice = defineModel<SchoolClass | null>('class-choice', { required: true })
 const userInput = defineModel<string>('user-input', { required: true })
 const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required: true })
-const sortList = defineModel<string[] | null>('sort-list', { required: true })
+const sortList = defineModel<string | null>('sort-list', { required: true })
 </script>
 
 <template>
