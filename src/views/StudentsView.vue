@@ -17,7 +17,7 @@ const gradeChoice = ref<Grade | null>(null)
 const classChoice = ref<SchoolClass | null>(null)
 const userInput = ref('')
 const needsFollowChoice = ref(false)
-const sortList = ref<string[] | null>([])
+const sortList = ref<string | null>('sort-grade')
 
 // 検索条件
 const newSchool = function (student: Student) {
@@ -80,7 +80,7 @@ function resetValue() {
   classChoice.value = null
   userInput.value = ''
   needsFollowChoice.value = false
-  sortList.value = []
+  sortList.value = null
 }
 
 // 並べ替え
@@ -106,20 +106,20 @@ const dateSort = (a: Student, b: Student) => {
   }
 }
 
-// ここが多分違うので火曜日修正。いま、sortConditionには何が入っている？そもそもgradeSortなどの検索条件ってうまくいっているか？
-// 一旦dateSortとか配列だけ描写できるか確認しておく。
-const sortCondition = (element: String) => {
+// いま、sortConditionには何が入っている？そもそもgradeSortなどの検索条件ってうまくいっているか？
+// →sortConditionは関数で、各並べ替え結果の配列をreturnしてくれる。検索結果の配列自体はうまく回っている
+const sortCondition = (element: string | null) => {
   if (element === 'sort-grade') {
-    return searchFilterValue.value.sort(gradeSort)
+    return gradeSort
   } else if (element === 'sort-date') {
-    return searchFilterValue.value.sort(dateSort)
+    return dateSort
   } else {
-    return searchFilterValue.value.sort(kanaSort)
+    return kanaSort
   }
 }
 
 const sortValue = computed(() => {
-  return sortCondition
+  return searchFilterValue.value.sort(sortCondition(sortList))
 })
 </script>
 
