@@ -71,7 +71,7 @@ const sortList = defineModel<string | null>('sort-list', { required: true })
 
     <span class="sort-select">
       <span class="entry-title">並び替え</span>
-      <select v-model="sortList">
+      <select id="sort-list" v-model="sortList">
         <option value="sort-kana">ふりがな</option>
         <option value="sort-grade">学年</option>
         <option value="sort-date">更新日</option>

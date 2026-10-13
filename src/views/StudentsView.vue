@@ -17,7 +17,7 @@ const gradeChoice = ref<Grade | null>(null)
 const classChoice = ref<SchoolClass | null>(null)
 const userInput = ref('')
 const needsFollowChoice = ref(false)
-const sortList = ref<string | null>('sort-grade')
+const sortList = ref<string | null>(null)
 
 // 検索条件
 const newSchool = function (student: Student) {
@@ -118,8 +118,9 @@ const sortCondition = (element: string | null) => {
   }
 }
 
+// computedは読みに行ったrefを記憶してその変更を見る→sortListがcomputedの中のsortConditionだから？
 const sortValue = computed(() => {
-  return searchFilterValue.value.sort(sortCondition(sortList))
+  return searchFilterValue.value.sort(sortCondition(sortList.value))
 })
 </script>
 
