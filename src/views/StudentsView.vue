@@ -148,30 +148,20 @@ const sortCondition = (element: string | null) => {
   }
 }
 
-// 並べ替え昇順降順
+// 並べ替え昇順降順→関数の呼び方が違う
+// 配列に直接.でつないでいいのは既存のプロパティのみ
+// 全部returnで書ききろうとすると可読性が下がる。
+
 const sortValue = computed(() => {
   const copiedSearchFilterValue = searchFilterValue.value.slice()
+  const sortedByChosenKey = sortCondition(sortList.value)
+  const sortedArray = copiedSearchFilterValue.sort(sortedByChosenKey)
   if (reverseSort.value === true) {
-    return copiedSearchFilterValue.sort(sortCondition(sortList.value)).toTailKanaNullStudent()
+    return sortedArray
   } else {
-    return copiedSearchFilterValue.sort(sortCondition(sortList.value)).reverse()
+    return sortedArray.reverse()
   }
 })
-
-// 空欄を末尾に移動するメソッド
-const toTailKanaNullStudent = (array: Student[], element: Student) => {
-  if (element.kana === null) {
-    const kanaNullIndex = array.indexOf(element)
-    while (kanaNullIndex !== -1) {
-      const nullArray = array.splice(kanaNullIndex, 1)
-      const nullArrayValue = nullArray[0]
-      if (nullArrayValue !== undefined) {
-        array.push(nullArrayValue)
-        return array
-      }
-    }
-  }
-}
 </script>
 
 <template>
