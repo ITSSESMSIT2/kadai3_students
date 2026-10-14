@@ -17,6 +17,13 @@ const classChoice = defineModel<SchoolClass | null>('class-choice', { required: 
 const userInput = defineModel<string>('user-input', { required: true })
 const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required: true })
 const sortList = defineModel<string | null>('sort-list', { required: true })
+const reverseSort = defineModel<boolean>('reverse-sort', { required: true })
+
+const reverseOrder = () => {
+  reverseSort.value = !reverseSort.value
+  console.log(reverseSort)
+  return reverseSort
+}
 </script>
 
 <template>
@@ -72,12 +79,16 @@ const sortList = defineModel<string | null>('sort-list', { required: true })
     <span class="sort-select">
       <span class="entry-title">並び替え</span>
       <select id="sort-list" v-model="sortList">
-        <option value="sort-kana">ふりがな</option>
+        <option value="null">ふりがな</option>
         <option value="sort-grade">学年</option>
         <option value="sort-date">更新日</option>
       </select>
-      {{ sortList }}
-      <button class="change-order">昇順↑</button>
+      <template v-if="reverseSort">
+        <button @click="reverseOrder()">昇順 ↑</button>
+      </template>
+      <template v-else>
+        <button @click="reverseOrder()">降順 ↓</button>
+      </template>
     </span>
   </div>
 </template>
