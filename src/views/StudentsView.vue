@@ -18,6 +18,7 @@ const classChoice = ref<SchoolClass | null>(null)
 const userInput = ref('')
 const needsFollowChoice = ref(false)
 const sortList = ref<string | null>(null)
+const reverseSort = ref(true)
 
 // 検索条件
 const newSchool = function (student: Student) {
@@ -81,46 +82,79 @@ function resetValue() {
   userInput.value = ''
   needsFollowChoice.value = false
   sortList.value = null
+  reverseSort.value = true
 }
 
 // 並べ替え
-// 並べ替え条件の関数
-// 後で必ずふりがながない人を後ろに回す条件を付ける
-const kanaSort = (a: Student, b: Student) => {
+
+// // 最後の条件
+const lastSortOrder = (a: Student, b: Student) => {
+  if (a.id < b.id) {
+    return -1
+  } else {
+    return 1
+  }
+}
+
+// // 第二条件：学校
+const secondSortOrder = (a: Student, b: Student) => {
+  if (a.school.id < b.school.id) {
+    return -1
+  } else if (a.school.id > b.school.id) {
+    return 1
+  } else {
+    return kanaSortOrder(a, b)
+  }
+}
+
+const kanaSortOrder = (a: Student, b: Student) => {
   if (a.kana < b.kana) {
     return -1
-  } else return 1
+  } else if (a.kana > b.kana) {
+    return 1
+  } else {
+    return lastSortOrder(a, b)
+  }
 }
-const gradeSort = (a: Student, b: Student) => {
+
+const gradeSortOrder = (a: Student, b: Student) => {
   if (a.grade.id < b.grade.id) {
     return -1
-  } else {
+  } else if (a.grade.id > b.grade.id) {
     return 1
+  } else {
+    return secondSortOrder(a, b)
   }
 }
-const dateSort = (a: Student, b: Student) => {
+
+const dateSortOrder = (a: Student, b: Student) => {
   if (a.updatedAt < b.updatedAt) {
     return -1
-  } else {
+  } else if (a.updatedAt > b.updatedAt) {
     return 1
+  } else {
+    return secondSortOrder(a, b)
   }
 }
 
-// いま、sortConditionには何が入っている？そもそもgradeSortなどの検索条件ってうまくいっているか？
-// →sortConditionは関数で、各並べ替え結果の配列をreturnしてくれる。検索結果の配列自体はうまく回っている
+// 並べ替え条件
 const sortCondition = (element: string | null) => {
   if (element === 'sort-grade') {
-    return gradeSort
+    return gradeSortOrder
   } else if (element === 'sort-date') {
-    return dateSort
+    return dateSortOrder
   } else {
-    return kanaSort
+    return kanaSortOrder
   }
 }
-
-// computedは読みに行ったrefを記憶してその変更を見る→sortListがcomputedの中のsortConditionだから？
+// 並べ替え昇順降順
 const sortValue = computed(() => {
-  return searchFilterValue.value.sort(sortCondition(sortList.value))
+  const copiedSearchFilterValue = searchFilterValue.value.slice()
+  if (reverseSort.value === true) {
+    return copiedSearchFilterValue.sort(sortCondition(sortList.value))
+  } else {
+    return copiedSearchFilterValue.sort(sortCondition(sortList.value)).reverse()
+  }
 })
 </script>
 
@@ -135,6 +169,7 @@ const sortValue = computed(() => {
         v-model:user-input="userInput"
         v-model:needsfollow-choice="needsFollowChoice"
         v-model:sort-list="sortList"
+        v-model:reverse-sort="reverseSort"
       />
       <span class="reset-button">
         <button @click="resetValue">絞り込みをクリア</button>
