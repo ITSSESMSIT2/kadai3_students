@@ -10,7 +10,7 @@ const schoolNames = getSchools()
 const gradeNames = getGrades()
 const classNames = getClasses()
 
-// defineModelを利用し、親のデータを呼び出す
+// defineModelを利用し、親のデータを同期する
 const schoolChoice = defineModel<School[]>('school-choice', { required: true })
 const gradeChoice = defineModel<Grade | null>('grade-choice', { required: true })
 const classChoice = defineModel<SchoolClass | null>('class-choice', { required: true })
@@ -19,9 +19,9 @@ const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required:
 const sortList = defineModel<string | null>('sort-list', { required: true })
 const reverseSort = defineModel<boolean>('reverse-sort', { required: true })
 
+// 昇順、降順を判定するためのreverseSortのTFを切り替える関数を作成
 const reverseOrder = () => {
   reverseSort.value = !reverseSort.value
-  console.log(reverseSort)
   return reverseSort
 }
 </script>
