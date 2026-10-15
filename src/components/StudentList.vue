@@ -43,26 +43,21 @@ const updatedAtValue = (day: string): string => {
   })
 }
 
-// 空欄を末尾に移動する関数
-// この関数自体に大きいreturnがあればよい→配列をreturn
-// 関数を回したいのか、関数の中で回したいのか？一個ずつ見るならfor
-// 呼びたい関数の中の順序は入れ替えたほうがいい。
-
-// 配列にforEachする用の関数
-// ①kanaがnullなら新しい配列に入れる、nullでなければそのまま
-const sortKanaNull = (element: Student) => {
-  if (element.kana.trim() === '') {
-    console.log('kanaがnullです')
+// 配列の末尾にvalueが空の要素を移動する関数
+const sortKanaNull = (a: Student, b: Student) => {
+  const aNull = a.kana.trim() === ''
+  const bNull = b.kana.trim() === ''
+  if (aNull === bNull) {
+    return 0
+  } else if (aNull) {
     return 1
-  } else {
-    console.log('kanaには値が入っています')
-    return -1
   }
+  return -1
 }
 
+// 実際に配列を並べ直す関数
 const nullSort = (array: Student[]) => {
   const copiedSort = array.slice()
-  console.log('nullSort動作中')
   const sorted = copiedSort.sort(sortKanaNull)
   return sorted
 }
