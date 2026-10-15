@@ -42,6 +42,30 @@ const updatedAtValue = (day: string): string => {
     day: '2-digit',
   })
 }
+
+// 空欄を末尾に移動する関数
+// この関数自体に大きいreturnがあればよい→配列をreturn
+// 関数を回したいのか、関数の中で回したいのか？一個ずつ見るならfor
+// 呼びたい関数の中の順序は入れ替えたほうがいい。
+
+// 配列にforEachする用の関数
+// ①kanaがnullなら新しい配列に入れる、nullでなければそのまま
+const sortKanaNull = (element: Student) => {
+  if (element.kana.trim() === '') {
+    console.log('kanaがnullです')
+    return 1
+  } else {
+    console.log('kanaには値が入っています')
+    return -1
+  }
+}
+
+const nullSort = (array: Student[]) => {
+  const copiedSort = array.slice()
+  console.log('nullSort動作中')
+  const sorted = copiedSort.sort(sortKanaNull)
+  return sorted
+}
 </script>
 
 <template>
@@ -69,7 +93,7 @@ const updatedAtValue = (day: string): string => {
           </tr>
         </thead>
         <tbody>
-          <tr class="result" v-for="student in sortValue" :key="student.id">
+          <tr class="result" v-for="student in nullSort(sortValue)" :key="student.id">
             <td class="pale-text">{{ student.id }}</td>
             <td>{{ student.name }}</td>
             <td class="pale-text">{{ kanaValue(student.kana) }}</td>
