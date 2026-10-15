@@ -58,8 +58,8 @@ const sortKanaNull = (a: Student, b: Student) => {
 // 実際に配列を並べ直す関数
 const nullSort = (array: Student[]) => {
   const copiedSort = array.slice()
-  const sorted = copiedSort.sort(sortKanaNull)
-  return sorted
+  const nullSorted = copiedSort.sort(sortKanaNull)
+  return nullSorted
 }
 </script>
 
