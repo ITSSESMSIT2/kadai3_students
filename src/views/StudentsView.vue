@@ -108,10 +108,9 @@ const secondSortOrder = (a: Student, b: Student) => {
 }
 
 const kanaSortOrder = (a: Student, b: Student) => {
-  if (a.kana < b.kana) {
-    return -1
-  } else if (a.kana > b.kana) {
-    return 1
+  const kanaResult = a.kana.localeCompare(b.kana, 'ja')
+  if (kanaResult !== 0) {
+    return kanaResult
   } else {
     return lastSortOrder(a, b)
   }
@@ -148,19 +147,33 @@ const sortCondition = (element: string | null) => {
   }
 }
 
-// 並べ替え昇順降順→関数の呼び方が違う
-// 配列に直接.でつないでいいのは既存のプロパティのみ
-// 全部returnで書ききろうとすると可読性が下がる。
+// 配列の末尾にvalueが空の要素を移動する関数
+const sortKanaNull = (a: Student, b: Student) => {
+  const aNull = a.kana.trim() === ''
+  const bNull = b.kana.trim() === ''
+  if (aNull === bNull) {
+    return 0
+  } else if (aNull) {
+    return 1
+  }
+  return -1
+}
 
+// 検索条件、並べ替え条件を配列に適用するcomputed関数
 const sortValue = computed(() => {
   const copiedSearchFilterValue = searchFilterValue.value.slice()
   const sortedByChosenKey = sortCondition(sortList.value)
   const sortedArray = copiedSearchFilterValue.sort(sortedByChosenKey)
-  if (reverseSort.value === true) {
-    return sortedArray
-  } else {
-    return sortedArray.reverse()
+  // 降順の場合のみ反転させる処理（昇順ならば実行されない）
+  if (reverseSort.value === false) {
+    sortedArray.reverse()
   }
+  // ふりがな順の場合のみ空のレコードを末尾に並べ替える処理(ふりがな以外なら実行されない)
+  if (sortedByChosenKey === kanaSortOrder) {
+    sortedArray.sort(sortKanaNull)
+  }
+  // 上記2つのif文を通過するかにかかわらず、加工された配列を返す
+  return sortedArray
 })
 </script>
 
