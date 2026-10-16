@@ -6,7 +6,7 @@ import type { Student } from '@/types/student'
 
 // 親コンポーネントから、Student型の配列を受け取る
 defineProps<{
-  searchFilterValue: Student[]
+  sortValue: Student[]
   students: Student[]
 }>()
 // かなが空の場合の処理
@@ -48,11 +48,9 @@ const updatedAtValue = (day: string): string => {
   <div class="result-panel">
     <div class="result-title">
       <span class="title">児童生徒一覧</span>
-      <span class="result-num"
-        >該当{{ searchFilterValue.length }}件 / 全{{ students.length }}件</span
-      >
+      <span class="result-num">該当{{ sortValue.length }}件 / 全{{ students.length }}件</span>
     </div>
-    <template v-if="searchFilterValue.length === 0"
+    <template v-if="sortValue.length === 0"
       >該当する児童生徒がいません。検索条件を変更してください。</template
     >
     <template v-else>
@@ -71,7 +69,7 @@ const updatedAtValue = (day: string): string => {
           </tr>
         </thead>
         <tbody>
-          <tr class="result" v-for="student in searchFilterValue" :key="student.id">
+          <tr class="result" v-for="student in sortValue" :key="student.id">
             <td class="pale-text">{{ student.id }}</td>
             <td>{{ student.name }}</td>
             <td class="pale-text">{{ kanaValue(student.kana) }}</td>

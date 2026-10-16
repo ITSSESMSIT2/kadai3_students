@@ -10,12 +10,20 @@ const schoolNames = getSchools()
 const gradeNames = getGrades()
 const classNames = getClasses()
 
-// defineModelを利用し、親のデータを呼び出す
+// defineModelを利用し、親のデータを同期する
 const schoolChoice = defineModel<School[]>('school-choice', { required: true })
 const gradeChoice = defineModel<Grade | null>('grade-choice', { required: true })
 const classChoice = defineModel<SchoolClass | null>('class-choice', { required: true })
 const userInput = defineModel<string>('user-input', { required: true })
 const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required: true })
+const sortList = defineModel<string | null>('sort-list', { required: true })
+const reverseSort = defineModel<boolean>('reverse-sort', { required: true })
+
+// 昇順、降順を判定するためのreverseSortのTFを切り替える関数を作成
+const reverseOrder = () => {
+  reverseSort.value = !reverseSort.value
+  return reverseSort
+}
 </script>
 
 <template>
@@ -69,13 +77,18 @@ const needsFollowChoice = defineModel<boolean>('needsfollow-choice', { required:
     </span>
 
     <span class="sort-select">
-      <span class="entry-title">並び替え</span>
-      <select>
-        <option>ふりがな</option>
-        <option>学年</option>
-        <option>更新日</option>
+      <label for="sort-list" class="entry-title">並び替え</label>
+      <select id="sort-list" v-model="sortList">
+        <option value="null">ふりがな</option>
+        <option value="sort-grade">学年</option>
+        <option value="sort-date">更新日</option>
       </select>
-      <button class="change-order">昇順↑</button>
+      <template v-if="reverseSort">
+        <button @click="reverseOrder()">昇順 ↑</button>
+      </template>
+      <template v-else>
+        <button @click="reverseOrder()">降順 ↓</button>
+      </template>
     </span>
   </div>
 </template>
