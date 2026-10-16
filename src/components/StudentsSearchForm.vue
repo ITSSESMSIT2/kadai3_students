@@ -77,7 +77,7 @@ const reverseOrder = () => {
     </span>
 
     <span class="sort-select">
-      <span class="entry-title">並び替え</span>
+      <label for="sort-list" class="entry-title">並び替え</label>
       <select id="sort-list" v-model="sortList">
         <option value="null">ふりがな</option>
         <option value="sort-grade">学年</option>
