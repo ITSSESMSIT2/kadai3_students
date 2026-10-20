@@ -1,8 +1,3 @@
-// 【指針】
-// gradeChoiceの型だけでは不足→処理に使っているし共通でもつIDを引数で渡す→今共通で使っているIDは？一意のものはそれこそidのみでは
-// Studentのどの項目を見たいか？
-// returnにrefの値を入れてそれを親コンポーネントで回収
-
 import { ref } from 'vue'
 import type { Grade, School, SchoolClass } from '@/types/school'
 import type { Student } from '@/types/student'
@@ -21,7 +16,6 @@ export function useSearchCriteria() {
   const needsFollowChoice = ref(false)
   // const classChoice = ref<SchoolClass | null>(null)
 
-  // この中に新しい関数を作るイメージ
   const newSchool = (element: Student) => {
     const schoolIds = schoolChoice.value.map((element) => element.id)
     if (schoolChoice.value.length !== 0) {
@@ -58,9 +52,8 @@ export function useSearchCriteria() {
     } else {
       return true
     }
-
-    // ここで作った新しい関数とgradeChoiceをreturn する、その新しい関数の中に親コンポーネントで使いたい配列なりを入れる
   }
+  // ここで作った新しい関数とgradeChoiceをreturn する、その新しい関数の中に親コンポーネントで使いたい配列を入れる
   return {
     schoolChoice,
     classChoice,
@@ -72,8 +65,5 @@ export function useSearchCriteria() {
     newClass,
     newUserInput,
     newNeedsFollow,
-
-    // const newGrade = selectGradeClass()
-    // const newClassChoice = selectGradeClass()
   }
 }
