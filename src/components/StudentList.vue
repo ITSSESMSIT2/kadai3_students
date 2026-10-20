@@ -42,6 +42,25 @@ const updatedAtValue = (day: string): string => {
     day: '2-digit',
   })
 }
+
+// 配列の末尾にvalueが空の要素を移動する関数
+const sortKanaNull = (a: Student, b: Student) => {
+  const aNull = a.kana.trim() === ''
+  const bNull = b.kana.trim() === ''
+  if (aNull === bNull) {
+    return 0
+  } else if (aNull) {
+    return 1
+  }
+  return -1
+}
+
+//
+const nullSort = (array: Student[]) => {
+  const copiedSort = array.slice()
+  const sorted = copiedSort.sort(sortKanaNull)
+  return sorted
+}
 </script>
 
 <template>
@@ -69,7 +88,7 @@ const updatedAtValue = (day: string): string => {
           </tr>
         </thead>
         <tbody>
-          <tr class="result" v-for="student in sortValue" :key="student.id">
+          <tr class="result" v-for="student in nullSort(sortValue)" :key="student.id">
             <td class="pale-text">{{ student.id }}</td>
             <td>{{ student.name }}</td>
             <td class="pale-text">{{ kanaValue(student.kana) }}</td>
