@@ -1,20 +1,18 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { Grade, School, SchoolClass } from '@/types/school'
 import type { Student } from '@/types/student'
-import { computed } from 'vue'
 
 // 検索条件
 
 // sourceの中に入れてるのは、フォームの入力値単品。
-// 関数と状態を一つにまとめて持つ→composableの役割
-export function useSearchCriteria() {
+// 関数と状態を一つにまとめて持つ→Composableの役割
+export function useSearchCriteria(students: Student[]) {
   // 入力フォームの実データを格納
   const schoolChoice = ref<School[]>([])
   const gradeChoice = ref<Grade | null>(null)
   const classChoice = ref<SchoolClass | null>(null)
   const userInput = ref('')
   const needsFollowChoice = ref(false)
-  // const classChoice = ref<SchoolClass | null>(null)
 
   const newSchool = (element: Student) => {
     const schoolIds = schoolChoice.value.map((element) => element.id)
@@ -53,6 +51,18 @@ export function useSearchCriteria() {
       return true
     }
   }
+  const searchFilterValue = computed(() => {
+    return students.filter((student: Student) => {
+      return (
+        newSchool(student) &&
+        newGrade(student) &&
+        newClass(student) &&
+        newUserInput(student) &&
+        newNeedsFollow(student)
+      )
+    })
+  })
+
   // ここで作った新しい関数とgradeChoiceをreturn する、その新しい関数の中に親コンポーネントで使いたい配列を入れる
   return {
     schoolChoice,
@@ -60,10 +70,6 @@ export function useSearchCriteria() {
     gradeChoice,
     userInput,
     needsFollowChoice,
-    newSchool,
-    newGrade,
-    newClass,
-    newUserInput,
-    newNeedsFollow,
+    searchFilterValue,
   }
 }
