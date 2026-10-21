@@ -1,7 +1,9 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import type { ComputedRef } from 'vue'
 import type { Student } from '@/types/student'
 
-export function useSortCriteria() {
+// 引数にはselectValue.tsで作成した、computed関数を適用済みの配列searchFilterValueを利用
+export function useSortCriteria(searchFilterValue: ComputedRef<Student[]>) {
   const sortList = ref<string | null>(null)
   const reverseSort = ref(true)
 
@@ -77,12 +79,25 @@ export function useSortCriteria() {
     }
     return -1
   }
+  const sortValue = computed(() => {
+    const copiedSearchFilterValue = searchFilterValue.value.slice()
+    const sortedByChosenKey = sortCondition(sortList.value)
+    const sortedArray = copiedSearchFilterValue.sort(sortedByChosenKey)
+    // 降順の場合のみ反転させる処理（昇順ならば実行されない）
+    if (reverseSort.value === false) {
+      sortedArray.reverse()
+    }
+    // ふりがな順の場合のみ空のレコードを末尾に並べ替える処理(ふりがな以外なら実行されない)
+    if (sortedByChosenKey === kanaSortOrder) {
+      sortedArray.sort(sortKanaNull)
+    }
+    // 上記2つのif文を通過するかにかかわらず、加工された配列を返す
+    return sortedArray
+  })
 
   return {
     sortList,
     reverseSort,
-    sortCondition,
-    sortKanaNull,
-    kanaSortOrder,
+    sortValue,
   }
 }
